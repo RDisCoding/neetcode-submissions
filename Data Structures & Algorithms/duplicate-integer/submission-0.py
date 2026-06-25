@@ -1,9 +1,7 @@
 class Solution:
     def hasDuplicate(self, nums: List[int]) -> bool:
-        visit = set()
+        numset = set()
         for i in nums:
-            if i not in visit:
-                visit.add(i)
-            else:
-                return True
+            if i in numset: return True
+            numset.add(i)
         return False

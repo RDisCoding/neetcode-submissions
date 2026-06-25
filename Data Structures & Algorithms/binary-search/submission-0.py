@@ -6,8 +6,8 @@ class Solution:
             mid = i + (j-i)//2
             if nums[mid] == target:
                 return mid
-            elif nums[mid] > target:
-                j = mid - 1
+            elif nums[mid] < target:
+                i = mid+1
             else:
-                i = mid + 1
-        return -1
+                j = mid-1
+        return -1 

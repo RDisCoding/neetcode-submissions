@@ -8,20 +8,19 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        if not node: return
+        if not node: return None
+        m = {}
 
-        mapping = {}
-
-        def dfs(node):
-            if node in mapping:
-                return mapping[node]
+        def clone(node):
+            if node in m:
+                return m[node]
             
-            copy = Node(node.val)
-            mapping[node] = copy
-
-            for x in node.neighbors:
-                copy.neighbors.append(dfs(x))
+            m[node] = Node(node.val)
+            for n in node.neighbors:
+                x = clone(n)
+                m[node].neighbors.append(x)
             
-            return copy
+            return m[node]
         
-        return dfs(node)
+        return clone(node)
+

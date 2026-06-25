@@ -7,23 +7,32 @@
 class Solution:    
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         if not lists: return None
-        n = len(lists)
-        for i in range(1, n):
-            lists[i] = self.mergeTwoLists(lists[i], lists[i-1])
-        return lists[n-1]
-        
-    def mergeTwoLists(self, list1, list2):
-        dummy = ListNode()
-        tail = dummy
+        def merge(l1, l2):
+            dummy = ListNode(0)
+            ptr = dummy
+            
+            while l1 and l2:
+                if l1.val <= l2.val:
+                    ptr.next = l1
+                    l1 = l1.next
+                else:
+                    ptr.next = l2
+                    l2 = l2.next
+                ptr = ptr.next
+            
+            if l1: 
+                ptr.next = l1
+            if l2: 
+                ptr.next = l2
+            
+            return dummy.next
 
-        while list1 and list2:
-            if list1.val<=list2.val:
-                tail.next = list1
-                list1 = list1.next
-            else:
-                tail.next = list2
-                list2 = list2.next
-            tail = tail.next
         
-        tail.next = list1 if list1 else list2
-        return dummy.next
+        while len(lists)>1:
+            a = lists.pop()
+            b = lists.pop()
+
+            m = merge(a,b)
+            lists.append(m)
+
+        return lists[0]

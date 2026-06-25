@@ -8,36 +8,28 @@ class PrefixTree:
 
     def __init__(self):
         self.root = TrieNode("#")
-        self.root.ptr = self.root
 
     def insert(self, word: str) -> None:
         ptr = self.root
         for c in word:
-            i = ord(c) - ord('a')
-            print(i)
-            if not ptr.children[i]:
-                ptr.children[i] = TrieNode(c)
-            ptr = ptr.children[i]
-        
+            if not ptr.children[ord(c) - ord('a')]:
+                ptr.children[ord(c) - ord('a')] = TrieNode(c)
+            ptr = ptr.children[ord(c) - ord('a')]
         ptr.flag = True
 
     def search(self, word: str) -> bool:
         ptr = self.root
         for c in word:
-            i = ord(c) - ord('a')
-            if not ptr.children[i]:
+            if not ptr.children[ord(c) - ord('a')]:
                 return False
-            ptr = ptr.children[i]
-        
+            ptr = ptr.children[ord(c) - ord('a')]
         return ptr.flag
-
+        
     def startsWith(self, prefix: str) -> bool:
         ptr = self.root
         for c in prefix:
-            i = ord(c) - ord('a')
-            if not ptr.children[i]:
+            if not ptr.children[ord(c) - ord('a')]:
                 return False
-            ptr = ptr.children[i]
-        
+            ptr = ptr.children[ord(c) - ord('a')]
         return True
         

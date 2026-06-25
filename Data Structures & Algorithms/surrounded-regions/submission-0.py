@@ -1,27 +1,31 @@
 class Solution:
     def solve(self, board: List[List[str]]) -> None:
-        row = len(board)
-        col = len(board[0])
+        rows, cols = len(board), len(board[0])
 
-        def dfs(r,c):
-            if r<0 or c<0 or r>=row or c>=col or board[r][c]=="#" or board[r][c] != "O":
+        def dfs(i,j):
+            if i<0 or j<0 or i==rows or j==cols or board[i][j] == 'X' or board[i][j] == '#' :
                 return
-            board[r][c]="#"
-            dfs(r-1,c)
-            dfs(r+1,c)
-            dfs(r,c-1)
-            dfs(r,c+1)
+            
+            if board[i][j] == "O":
+                board[i][j] = "#"
+                dfs(i-1,j)
+                dfs(i+1,j)
+                dfs(i,j-1)
+                dfs(i,j+1)
 
-        for r in range(row):
-            for c in range(col):
-                if r==0 or r==row-1 or c==0 or c==col-1:
-                    if board[r][c]=="O": 
-                        dfs(r,c)
-        
-        for r in range(row):
-            for c in range(col):
-                if board[r][c]=="#": 
-                    board[r][c] = "O"
+        for i in [0, rows-1]:
+            for j in range(cols):
+                if board[i][j] == "O":
+                    dfs(i,j)
+                
+        for i in range(rows):
+            for j in [0, cols-1]:
+                if board[i][j] == "O":
+                    dfs(i,j)
+            
+        for i in range(rows):
+            for j in range(cols):
+                if board[i][j] != "#":
+                    board[i][j] = "X"
                 else:
-                    board[r][c] = "X"
-        
+                    board[i][j] = "O"
